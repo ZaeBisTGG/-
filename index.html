@@ -107,4 +107,36 @@
         <div class="slider-container">
             <button class="slider-btn prev" onclick="moveSlider(-1)">&lt;</button>
             <div class="slider-track" id="track">
-                <!-- ФОТО 1: У реки (сжато в код) -->
+                <!-- Ссылка на фото у реки -->
+                <img src="https://googleusercontent.com" alt="Фото у реки">
+                <!-- Ссылка на фото в машине -->
+                <img src="https://googleusercontent.com" alt="Фото в машине">
+            </div>
+            <button class="slider-btn next" onclick="moveSlider(1)">&gt;</button>
+        </div>
+
+        <div class="info-group">
+            <span class="label">Рассекреченные материалы:</span> 
+            <span>Кирилл известен как создатель сайта и своего собственного проекта «Край руин», но знаете ли вы, что помимо этого он еще и китайский разведчик, призванный чтобы соблазнять парней? На самом деле вся его деятельность в сети — это лишь профессиональное прикрытие, ведь он является геем и секретным агентом спецслужб Китая под кодовым именем «Лунтик», который использует свое обаяние для выполнения секретных миссий, нагло снимает с парней штаны и оставляет их без шанса на спасение.</span>
+        </div>
+
+        <div class="views-counter">
+            👁️ Данную страницу просмотрело: <span class="views-count">5 247 человек</span>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const track = document.getElementById('track');
+
+        function moveSlider(direction) {
+            currentSlide = (currentSlide + direction + 2) % 2;
+            track.style.transform = `translateX(-${currentSlide * 50}%)`;
+        }
+
+        setInterval(() => moveSlider(1), 5000);
+    </script>
+
+</body>
+</html>
+
