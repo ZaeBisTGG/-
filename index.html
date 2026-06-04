@@ -24,7 +24,6 @@
             max-width: 550px;
             width: 100%;
             box-shadow: 0 0 20px rgba(0, 255, 102, 0.2);
-            position: relative;
         }
         h1 {
             text-align: center;
@@ -35,29 +34,45 @@
             border-bottom: 1px dashed #ff3333;
             padding-bottom: 10px;
         }
-        .photo-container {
-            width: 180px;
-            height: 180px;
-            border: 2px dashed #ff3333;
-            margin: 0 auto 20px auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            background: rgba(255, 51, 51, 0.05);
-            overflow: hidden;
+        
+        /* Слайдер для двух фото */
+        .slider-container {
             position: relative;
+            width: 280px;
+            height: 280px;
+            margin: 0 auto 20px auto;
+            border: 2px solid #ff3333;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(255, 51, 51, 0.3);
         }
-        .photo-container img {
-            width: 100%;
+        .slider-track {
+            display: flex;
+            width: 200%;
+            height: 100%;
+            transition: transform 0.5s ease-in-out;
+        }
+        .slider-track img {
+            width: 50%;
             height: 100%;
             object-fit: cover;
         }
-        .photo-text {
-            font-size: 12px;
-            color: #ff3333;
-            padding: 10px;
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(11, 15, 25, 0.8);
+            border: 1px solid #00ff66;
+            color: #00ff66;
+            padding: 10px 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            z-index: 10;
         }
+        .slider-btn.prev { left: 0; border-left: none; border-radius: 0 4px 4px 0; }
+        .slider-btn.next { right: 0; border-right: none; border-radius: 4px 0 0 4px; }
+        
         .info-group {
             margin-bottom: 20px;
             font-size: 16px;
@@ -73,103 +88,61 @@
             font-size: 14px;
             letter-spacing: 1px;
         }
-        /* Панель управления */
-        .admin-panel {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            display: flex;
-            gap: 5px;
+        
+        /* Счетчик просмотров */
+        .views-counter {
+            text-align: center;
+            border-top: 1px dashed #334155;
+            padding-top: 15px;
+            margin-top: 25px;
+            font-size: 13px;
+            color: #8892b0;
         }
-        .admin-btn {
-            background: #1f2937;
-            border: 1px solid #374151;
-            color: #9ca3af;
-            padding: 5px 10px;
-            font-size: 11px;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: all 0.2s;
-        }
-        .admin-btn:hover {
-            border-color: #00ff66;
-            color: #00ff66;
-        }
-        /* Скрытый инпут для фото */
-        #photo-input {
-            display: none;
+        .views-count {
+            color: #ff3333;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
 
     <div class="card">
-        <!-- Кнопки управления (Пароль: 1234) -->
-        <div class="admin-panel">
-            <button class="admin-btn" onclick="uploadPhoto()">📷 Загрузить фото</button>
-            <button class="admin-btn" onclick="editContent()">📝 Изменить текст</button>
-        </div>
-
-        <input type="file" id="photo-input" accept="image/*" onchange="previewImage(event)">
-
         <h1>[ ДЕЛО №993: ЛУНТИК ]</h1>
         
-        <!-- Контейнер для фотографии -->
-        <div class="photo-container" id="photo-box">
-            <span class="photo-text">[ ФОТОГРАФИЯ ИЗЪЯТА ]</span>
+        <!-- Слайдер с фотографиями -->
+        <div class="slider-container">
+            <button class="slider-btn prev" onclick="moveSlider(-1)">&lt;</button>
+            <div class="slider-track" id="track">
+                <!-- Первая фотография (у реки) -->
+                <img src="https://imgbox.com" alt="Фото у реки">
+                <!-- Вторая фотография (в машине) -->
+                <img src="https://imgbox.com" alt="Фото в машине">
+            </div>
+            <button class="slider-btn next" onclick="moveSlider(1)">&gt;</button>
         </div>
 
         <div class="info-group">
             <span class="label">Рассекреченные материалы:</span> 
-            <span id="main-text" class="editable">Кирилл известен как создатель сайта и своего собственного проекта «Край руин», но знаете ли вы, что помимо этого он еще и китайский разведчик, призванный чтобы соблазнять парней? На самом деле вся его деятельность в сети — это лишь профессиональное прикрытие, ведь он является геем и секретным агентом спецслужб Китая под кодовым именем «Лунтик», который использует свое обаяние для выполнения секретных миссий, нагло снимает с парней штаны и оставляет их без шанса на спасение.</span>
+            <span>Кирилл известен как создатель сайта и своего собственного проекта «Край руин», но знаете ли вы, что помимо этого он еще и китайский разведчик, призванный чтобы соблазнять парней? На самом деле вся его деятельность в сети — это лишь профессиональное прикрытие, ведь он является геем и секретным агентом спецслужб Китая под кодовым именем «Лунтик», который использует свое обаяние для выполнения секретных миссий, нагло снимает с парней штаны и оставляет их без шанса на спасение.</span>
+        </div>
+
+        <!-- Новый блок со счетчиком просмотров -->
+        <div class="views-counter">
+            👁️ Данную страницу просмотрело: <span class="views-count">5 247 человек</span>
         </div>
     </div>
 
     <script>
-        let isAuthenticated = false;
+        let currentSlide = 0;
+        const track = document.getElementById('track');
 
-        // Проверка секретного кода
-        function checkAccess() {
-            if (isAuthenticated) return true;
-            const password = prompt("Введите секретный ключ владельца (Пароль по умолчанию: 1234):");
-            if (password === "1234") {
-                isAuthenticated = true;
-                return true;
-            }
-            alert("Доступ заблокирован!");
-            return false;
+        function moveSlider(direction) {
+            currentSlide = (currentSlide + direction + 2) % 2;
+            track.style.transform = `translateX(-${currentSlide * 50}%)`;
         }
 
-        // Функция изменения текста
-        function editContent() {
-            if (!checkAccess()) return;
-            
-            const textBlock = document.getElementById('main-text');
-            textBlock.contentEditable = "true";
-            textBlock.style.border = "1px dashed #00ff66";
-            textBlock.style.padding = "10px";
-            textBlock.style.background = "rgba(0, 255, 102, 0.05)";
-            textBlock.focus();
-            
-            alert("Режим редактирования включен! Вы можете кликнуть по тексту и изменить его прямо на экране.");
-        }
-
-        // Вызов окна выбора фотографии
-        function uploadPhoto() {
-            if (!checkAccess()) return;
-            document.getElementById('photo-input').click();
-        }
-
-        // Отображение загруженного фото на сайте
-        function previewImage(event) {
-            const reader = new FileReader();
-            reader.onload = function() {
-                const photoBox = document.getElementById('photo-box');
-                photoBox.innerHTML = `<img src="${reader.result}" alt="Фото объекта">`;
-                photoBox.style.border = "2px solid #ff3333";
-            }
-            reader.readAsDataURL(event.target.files[0]);
-        }
+        // Автоматическое переключение каждые 5 секунд
+        setInterval(() => moveSlider(1), 5000);
     </script>
 
 </body>
