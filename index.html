@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Досье: Секретные материалы</title>
+    <title>Досье: Кирилл (Лунтик)</title>
     <style>
-        /* Оформление сайта (CSS) */
         body {
             font-family: 'Courier New', Courier, monospace;
             background-color: #0b0f19;
@@ -22,9 +21,10 @@
             border: 2px solid #00ff66;
             border-radius: 10px;
             padding: 30px;
-            max-width: 500px;
+            max-width: 550px;
             width: 100%;
             box-shadow: 0 0 20px rgba(0, 255, 102, 0.2);
+            position: relative;
         }
         h1 {
             text-align: center;
@@ -35,73 +35,142 @@
             border-bottom: 1px dashed #ff3333;
             padding-bottom: 10px;
         }
-        .photo-placeholder {
-            width: 150px;
-            height: 150px;
-            border: 2px dashed #00ff66;
+        .photo-container {
+            width: 180px;
+            height: 180px;
+            border: 2px dashed #ff3333;
             margin: 0 auto 20px auto;
             display: flex;
             justify-content: center;
             align-items: center;
             text-align: center;
+            background: rgba(255, 51, 51, 0.05);
+            overflow: hidden;
+            position: relative;
+        }
+        .photo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .photo-text {
             font-size: 12px;
-            color: #888;
+            color: #ff3333;
+            padding: 10px;
         }
         .info-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             font-size: 16px;
-            line-height: 1.5;
+            line-height: 1.6;
+            text-align: justify;
         }
         .label {
             color: #8892b0;
             font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 1px;
         }
-        .status-danger {
-            color: #ff3333;
-            font-weight: bold;
-            animation: blink 1.5s infinite;
+        /* Панель управления */
+        .admin-panel {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 5px;
         }
-        @keyframes blink {
-            50% { opacity: 0; }
+        .admin-btn {
+            background: #1f2937;
+            border: 1px solid #374151;
+            color: #9ca3af;
+            padding: 5px 10px;
+            font-size: 11px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        .admin-btn:hover {
+            border-color: #00ff66;
+            color: #00ff66;
+        }
+        /* Скрытый инпут для фото */
+        #photo-input {
+            display: none;
         }
     </style>
 </head>
 <body>
 
     <div class="card">
-        <h1>[ СЕКРЕТНОЕ ДОСЬЕ ]</h1>
+        <!-- Кнопки управления (Пароль: 1234) -->
+        <div class="admin-panel">
+            <button class="admin-btn" onclick="uploadPhoto()">📷 Загрузить фото</button>
+            <button class="admin-btn" onclick="editContent()">📝 Изменить текст</button>
+        </div>
+
+        <input type="file" id="photo-input" accept="image/*" onchange="previewImage(event)">
+
+        <h1>[ ДЕЛО №993: ЛУНТИК ]</h1>
         
-        <!-- МЕСТО ДЛЯ ФОТО: Можете заменить текст внутри -->
-        <div class="photo-placeholder">
-            [ ФОТО В РОЗЫСКЕ ]
-        </div>
-
-        <!-- ЛИЧНЫЕ ДАННЫЕ: Меняйте текст после двоеточий -->
-        <div class="info-group">
-            <span class="label">ФИО Объекта:</span> 
-            <span>Иванов Иван Иванович</span>
+        <!-- Контейнер для фотографии -->
+        <div class="photo-container" id="photo-box">
+            <span class="photo-text">[ ФОТОГРАФИЯ ИЗЪЯТА ]</span>
         </div>
 
         <div class="info-group">
-            <span class="label">Кодовое имя:</span> 
-            <span>«Неуловимый Крот»</span>
-        </div>
-
-        <div class="info-group">
-            <span class="label">Особые приметы:</span> 
-            <span>Пьет чай без сахара, программирует во сне, не моргает.</span>
-        </div>
-
-        <div class="info-group">
-            <span class="label">Тайная деятельность:</span> 
-            <span>Подозревается в несанкционированном поедании чужих конфет в офисе и взломе микроволновок.</span>
-        </div>
-
-        <div class="info-group">
-            <span class="label">Текущий статус:</span> 
-            <span class="status-danger">В МЕЖДУНАРОДНОМ РОЗЫСКЕ</span>
+            <span class="label">Рассекреченные материалы:</span> 
+            <span id="main-text" class="editable">Кирилл известен как создатель сайта и своего собственного проекта «Край руин», но знаете ли вы, что помимо этого он еще и китайский разведчик, призванный чтобы соблазнять парней? На самом деле вся его деятельность в сети — это лишь профессиональное прикрытие, ведь он является геем и секретным агентом спецслужб Китая под кодовым именем «Лунтик», который использует свое обаяние для выполнения секретных миссий, нагло снимает с парней штаны и оставляет их без шанса на спасение.</span>
         </div>
     </div>
+
+    <script>
+        let isAuthenticated = false;
+
+        // Проверка секретного кода
+        function checkAccess() {
+            if (isAuthenticated) return true;
+            const password = prompt("Введите секретный ключ владельца (Пароль по умолчанию: 1234):");
+            if (password === "1234") {
+                isAuthenticated = true;
+                return true;
+            }
+            alert("Доступ заблокирован!");
+            return false;
+        }
+
+        // Функция изменения текста
+        function editContent() {
+            if (!checkAccess()) return;
+            
+            const textBlock = document.getElementById('main-text');
+            textBlock.contentEditable = "true";
+            textBlock.style.border = "1px dashed #00ff66";
+            textBlock.style.padding = "10px";
+            textBlock.style.background = "rgba(0, 255, 102, 0.05)";
+            textBlock.focus();
+            
+            alert("Режим редактирования включен! Вы можете кликнуть по тексту и изменить его прямо на экране.");
+        }
+
+        // Вызов окна выбора фотографии
+        function uploadPhoto() {
+            if (!checkAccess()) return;
+            document.getElementById('photo-input').click();
+        }
+
+        // Отображение загруженного фото на сайте
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                const photoBox = document.getElementById('photo-box');
+                photoBox.innerHTML = `<img src="${reader.result}" alt="Фото объекта">`;
+                photoBox.style.border = "2px solid #ff3333";
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
 
 </body>
 </html>
