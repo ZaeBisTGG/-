@@ -34,6 +34,8 @@
             border-bottom: 1px dashed #ff3333;
             padding-bottom: 10px;
         }
+        
+        /* Слайдер для фото */
         .slider-container {
             position: relative;
             width: 280px;
@@ -67,9 +69,11 @@
             font-weight: bold;
             font-size: 16px;
             z-index: 10;
+            user-select: none;
         }
         .slider-btn.prev { left: 0; border-left: none; border-radius: 0 4px 4px 0; }
         .slider-btn.next { right: 0; border-right: none; border-radius: 4px 0 0 4px; }
+        
         .info-group {
             margin-bottom: 20px;
             font-size: 16px;
@@ -85,6 +89,8 @@
             font-size: 14px;
             letter-spacing: 1px;
         }
+        
+        /* Счетчик просмотров */
         .views-counter {
             text-align: center;
             border-top: 1px dashed #334155;
@@ -104,13 +110,14 @@
     <div class="card">
         <h1>[ ДЕЛО №993: ЛУНТИК ]</h1>
         
+        <!-- Слайдер с фотографиями -->
         <div class="slider-container">
             <button class="slider-btn prev" onclick="moveSlider(-1)">&lt;</button>
             <div class="slider-track" id="track">
-                <!-- Ссылка на фото у реки -->
-                <img src="https://googleusercontent.com" alt="Фото у реки">
-                <!-- Ссылка на фото в машине -->
-                <img src="https://googleusercontent.com" alt="Фото в машине">
+                <!-- Первая фотография (у реки) -->
+                <img src="https://telegra.ph" alt="Фото у реки">
+                <!-- Вторая фотография (в машине) -->
+                <img src="https://telegra.ph" alt="Фото в машине">
             </div>
             <button class="slider-btn next" onclick="moveSlider(1)">&gt;</button>
         </div>
@@ -120,6 +127,7 @@
             <span>Кирилл известен как создатель сайта и своего собственного проекта «Край руин», но знаете ли вы, что помимо этого он еще и китайский разведчик, призванный чтобы соблазнять парней? На самом деле вся его деятельность в сети — это лишь профессиональное прикрытие, ведь он является геем и секретным агентом спецслужб Китая под кодовым именем «Лунтик», который использует свое обаяние для выполнения секретных миссий, нагло снимает с парней штаны и оставляет их без шанса на спасение.</span>
         </div>
 
+        <!-- Блок со счетчиком просмотров -->
         <div class="views-counter">
             👁️ Данную страницу просмотрело: <span class="views-count">5 247 человек</span>
         </div>
@@ -134,6 +142,7 @@
             track.style.transform = `translateX(-${currentSlide * 50}%)`;
         }
 
+        // Картинки сами меняются каждые 5 секунд
         setInterval(() => moveSlider(1), 5000);
     </script>
 
