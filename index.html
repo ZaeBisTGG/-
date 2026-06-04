@@ -67,7 +67,6 @@
             font-weight: bold;
             font-size: 16px;
             z-index: 10;
-            user-select: none;
         }
         .slider-btn.prev { left: 0; border-left: none; border-radius: 0 4px 4px 0; }
         .slider-btn.next { right: 0; border-right: none; border-radius: 4px 0 0 4px; }
@@ -108,9 +107,9 @@
         <div class="slider-container">
             <button class="slider-btn prev" onclick="moveSlider(-1)">&lt;</button>
             <div class="slider-track" id="track">
-                <!-- Сайт берёт картинки прямо из вашего репозитория -->
-                <img src="photo1.jpg" alt="Фото у реки">
-                <img src="photo2.jpg" alt="Фото в машине">
+                <!-- Прямые ссылки на фото из облачного хранилища -->
+                <img src="https://r2.dev" alt="Фото у реки">
+                <img src="https://r2.dev" alt="Фото в машине">
             </div>
             <button class="slider-btn next" onclick="moveSlider(1)">&gt;</button>
         </div>
